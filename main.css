@@ -1,0 +1,15 @@
+.button{
+  display: block;
+}
+.folder {
+  background-color: blueviolet;
+}
+
+.folder--hidden {
+  display: none;
+}
+
+#kuulSitaff{
+font-family: 'Press Start 2P',cursive;
+font-size: 0.7em;
+}
