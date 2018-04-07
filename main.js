@@ -25,6 +25,7 @@ List bookmarks by folders search box
 
 */
 
+// Bookmark constructor
 function Bookmark(title, url) {
   this.title = title;
   this.url = url;
@@ -34,44 +35,36 @@ function Bookmark(title, url) {
   };
 }
 
+// Bookmark Folder constructor
 function Folder(id) {
   this.bookmarks = [];
   this.id = id;
   this.addBookmark = function(bookmark) {
     this.bookmarks.push(bookmark);
   };
-  console.log("New folder has been created!");
 }
 
-let listOfFolders = [];
+// Bookmark folder array
+let listOfFolders = ["kontrol1", "kontrol2"];
 
-function handleAddFolder(){
+// Handle methods
+function handleAddFolder() {
   const folderName = document.querySelector("#folderName").value;
   const folder = new Folder(folderName);
-  listOfFolders.push(folder);
-  console.log(listOfFolders);
+  listOfFolders.push(folder.id);
+  editFolderList();
 }
 
-function showFolder() {
-  folder.classList.replace("folder--hidden", "folder");
+function editFolderList() {
+  const folderList = document.querySelector("#folderList");
+  const folderNamesList = [];
+  for (let i = 0; i < listOfFolders.length; i++) {
+    const folder = `<option>${listOfFolders[i]}</option>`;
+    folderNamesList.push(folder);
+  }
+  folderList.innerHTML = folderNamesList;
 }
 
-function hideFolder() {
-  folder.classList.replace("folder", "folder--hidden");
-}
-
-// Main method
-
-var rottenTomato = new Bookmark("IMDB", "www.imdb.com");
-rottenTomato.edit("rotten", "rottentomatoes.com");
-var bestArtist = new Bookmark("Gunther", "www.gunther.com");
-
-var efe = new Folder(1);
-efe.addBookmark(rottenTomato);
-efe.addBookmark(bestArtist);
-console.log("Listing the bookmarks titles from folder '" + efe.id + "'");
-console.log(efe.bookmarks[0].title);
-console.log(efe.bookmarks[1].title);
-
+// DOM elements and event listeners
 const addFolderButton = document.querySelector("#addFolder");
 addFolderButton.addEventListener("click", handleAddFolder);
