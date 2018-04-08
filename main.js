@@ -96,8 +96,33 @@ function handleAddBookmark() {
 
   // Add bookmark to folder
   const folder = document.querySelector("#folderList-add").value;
-  const [bookmarkFolder] = listOfFolders.filter(value => value.id === folder);
+  const [bookmarkFolder] = listOfFolders.filter(function (value){ return value.id === folder});
   bookmarkFolder.addBookmark(bookmark);
+}
+
+function handleShowBookmark() {
+  const folderName = document.querySelector("#folderList-show").value;
+  const folder = (function() {
+    for (let i = 0; i < listOfFolders.length; i++) {
+      if(listOfFolders[i].id === folderName){
+        return listOfFolders[i];
+      }
+    }
+     console.log("we fucked up, sorry.");
+  })();
+  const folderNameShow = document.querySelector("#folderNameShow");
+  const folderTitle = `${folder.id}`;
+  folderNameShow.innerText = folderTitle;
+  
+//TO DO -> abi arrayden dolayi arada virgul cikiyor, cozmemiz lazim.
+  const bookmarksList = document.querySelector("#bookmarksList");
+  let bookmarksListArray = [];
+  for (let i = 0; i < folder.bookmarks.length; i++) {
+    const { title, url } = folder.bookmarks[i];
+    const bookmarkLi = `<a href="${url}"><li>${title}</li></a>`;
+    bookmarksListArray.push(bookmarkLi);
+  }
+  bookmarksList.innerHTML = bookmarksListArray;
 }
 
 // DOM elements and event listeners
@@ -106,3 +131,10 @@ addFolderButton.addEventListener("click", handleAddFolder);
 
 const addBookmarkButton = document.querySelector("#addBookmark");
 addBookmarkButton.addEventListener("click", handleAddBookmark);
+
+const showBookmarkButton = document.querySelector("#showBookmark");
+showBookmarkButton.addEventListener("click", handleShowBookmark);
+
+
+
+
