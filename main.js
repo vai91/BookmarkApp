@@ -45,24 +45,34 @@ function Folder(id) {
 }
 
 // Bookmark folder array
-let listOfFolders = ["kontrol1", "kontrol2"];
+let listOfFolders = [];
 
 // Handle methods
 function handleAddFolder() {
   const folderName = document.querySelector("#folderName").value;
-  const folder = new Folder(folderName);
-  listOfFolders.push(folder.id);
-  editFolderList();
+  if (folderName === '' || folderName === ' '){
+    alert("Folder name can not be empty, enter something.");
+  }else if (listOfFolders.includes(folderName)) {
+    alert(`${folderName} exists, enter something else.`);
+  }else{
+    const folder = new Folder(folderName);
+    listOfFolders.push(folder.id);
+    editFolderList();
+  }
 }
 
 function editFolderList() {
-  const folderList = document.querySelector("#folderList");
+  const folderList = document.querySelectorAll("#folderList-show, #folderList-add");
   const folderNamesList = [];
   for (let i = 0; i < listOfFolders.length; i++) {
     const folder = `<option>${listOfFolders[i]}</option>`;
     folderNamesList.push(folder);
   }
-  folderList.innerHTML = folderNamesList;
+  for (let i = 0; i < folderList.length; i++) {
+    folderList[i].innerHTML = folderNamesList;
+    console.log('test');
+  }
+  
 }
 
 // DOM elements and event listeners
