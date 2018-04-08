@@ -50,31 +50,59 @@ let listOfFolders = [];
 // Handle methods
 function handleAddFolder() {
   const folderName = document.querySelector("#folderName").value;
-  if (folderName === '' || folderName === ' '){
+  if (folderName === "" || folderName === " ") {
     alert("Folder name can not be empty, enter something.");
-  }else if (listOfFolders.includes(folderName)) {
+  } else if (checkExistFolderNames(listOfFolders, folderName)) {
     alert(`${folderName} exists, enter something else.`);
-  }else{
+  } else {
     const folder = new Folder(folderName);
-    listOfFolders.push(folder.id);
+    listOfFolders.push(folder);
     editFolderList();
   }
 }
 
+function checkExistFolderNames(listOfFolders, folderName) {
+  for (let i = 0; i < listOfFolders.length; i++) {
+    if (folderName === listOfFolders[i].id) {
+      console.log("Folder name exists.");
+      return true;
+    } else {
+      console.log("Unique");
+    }
+  }
+}
+
 function editFolderList() {
-  const folderList = document.querySelectorAll("#folderList-show, #folderList-add");
   const folderNamesList = [];
   for (let i = 0; i < listOfFolders.length; i++) {
-    const folder = `<option>${listOfFolders[i]}</option>`;
+    const folder = `<option>${listOfFolders[i].id}</option>`;
     folderNamesList.push(folder);
   }
+
+  // Dropdown List
+  const folderList = document.querySelectorAll(
+    "#folderList-show, #folderList-add"
+  );
   for (let i = 0; i < folderList.length; i++) {
     folderList[i].innerHTML = folderNamesList;
-    console.log('test');
   }
-  
+}
+
+function handleAddBookmark() {
+  // Create bookmark
+  const bookmarkTitle = document.querySelector("#title").value;
+  const bookmarkUrl = document.querySelector("#url").value;
+  const bookmark = new Bookmark(bookmarkTitle, bookmarkUrl);
+
+  // Add bookmark to folder
+  const folder = document.querySelector("#folderList-add").value;
+  const [bookmarkFolder] = listOfFolders.filter(value => value.id === folder);
+  bookmarkFolder.addBookmark(bookmark);
 }
 
 // DOM elements and event listeners
 const addFolderButton = document.querySelector("#addFolder");
 addFolderButton.addEventListener("click", handleAddFolder);
+
+const addBookmarkButton = document.querySelector("#addBookmark");
+addBookmarkButton.addEventListener("click", handleAddBookmark);
